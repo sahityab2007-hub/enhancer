@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonicBloom — Song Enhancer</title>
+    <meta name="description" content="Enhance your songs with professional audio processing. Make any track warmer, smoother, and more soothing with SonicBloom.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header" id="app-header">
+            <div class="logo-group">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 48 48" fill="none">
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#a78bfa"/>
+                                <stop offset="50%" style="stop-color:#f472b6"/>
+                                <stop offset="100%" style="stop-color:#fb923c"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="24" cy="24" r="20" stroke="url(#logoGrad)" stroke-width="2.5" fill="none"/>
+                        <path d="M18 14 C18 14, 18 34, 18 34 M24 10 C24 10, 24 38, 24 38 M30 16 C30 16, 30 32, 30 32 M12 20 C12 20, 12 28, 12 28 M36 18 C36 18, 36 30, 36 30" 
+                              stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="logo-text">SonicBloom</h1>
+                    <p class="logo-sub">AI Song Enhancer</p>
+                </div>
+            </div>
+            <div class="header-badge">
+                <span class="pulse-dot"></span>
+                <span>Studio Quality</span>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero" id="hero-section">
+            <h2 class="hero-title">
+                Make Your Music
+                <span class="gradient-text"> Bloom</span>
+            </h2>
+            <p class="hero-desc">
+                Upload any song and transform it with professional-grade audio enhancement. 
+                Warmer tones, smoother dynamics, and richer depth — instantly.
+            </p>
+        </section>
+
+        <!-- Main Card -->
+        <main class="main-card" id="main-card">
+            <!-- Upload Zone -->
+            <div class="upload-zone" id="upload-zone">
+                <div class="upload-icon">
+                    <svg viewBox="0 0 64 64" fill="none">
+                        <defs>
+                            <linearGradient id="upGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#a78bfa"/>
+                                <stop offset="100%" style="stop-color:#f472b6"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M32 44V20M32 20L22 30M32 20L42 30" stroke="url(#upGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 40v6a6 6 0 006 6h28a6 6 0 006-6v-6" stroke="url(#upGrad)" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3 class="upload-title">Drop your track here</h3>
+                <p class="upload-hint">or click to browse — MP3, WAV, FLAC, OGG, M4A supported</p>
+                <input type="file" id="file-input" accept=".mp3,.wav,.flac,.ogg,.m4a,.aac,.wma,.aiff" hidden>
+            </div>
+
+            <!-- File Info (hidden initially) -->
+            <div class="file-info hidden" id="file-info">
+                <div class="file-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18V5l12-2v13"/>
+                        <circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+                    </svg>
+                </div>
+                <div class="file-details">
+                    <span class="file-name" id="file-name">—</span>
+                    <span class="file-size" id="file-size">—</span>
+                </div>
+                <button class="file-remove" id="file-remove" title="Remove file">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Enhancement Controls -->
+            <div class="controls-section" id="controls-section">
+                <h3 class="controls-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="controls-icon">
+                        <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>
+                    </svg>
+                    Enhancement Controls
+                </h3>
+
+                <!-- Intensity Slider -->
+                <div class="slider-group" id="intensity-group">
+                    <div class="slider-header">
+                        <label class="slider-label">Enhancement Intensity</label>
+                        <span class="slider-value" id="intensity-value">80%</span>
+                    </div>
+                    <input type="range" class="slider" id="intensity-slider" min="0" max="100" value="80">
+                    <div class="slider-hints">
+                        <span>Subtle</span>
+                        <span>Maximum</span>
+                    </div>
+                </div>
+
+                <!-- Toggle Grid -->
+                <div class="toggle-grid">
+                    <div class="toggle-card" id="toggle-warmth">
+                        <div class="toggle-card-icon" style="--accent: #f59e0b;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                        </div>
+                        <span class="toggle-card-label">Warmth EQ</span>
+                        <span class="toggle-card-desc">Boost warm mids, tame harshness</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="warmth-toggle" checked>
+                            <span class="toggle-track"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-card" id="toggle-bass">
+                        <div class="toggle-card-icon" style="--accent: #8b5cf6;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 16s2-2 5-2 5 4 8 4 5-2 5-2V4s-2 2-5 2-5-4-8-4S2 4 2 4z"/></svg>
+                        </div>
+                        <span class="toggle-card-label">Bass Boost</span>
+                        <span class="toggle-card-desc">Rich, warm low-end</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="bass-toggle" checked>
+                            <span class="toggle-track"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-card" id="toggle-compression">
+                        <div class="toggle-card-icon" style="--accent: #06b6d4;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h4l3-9 3 18 3-9h4"/></svg>
+                        </div>
+                        <span class="toggle-card-label">Soft Compress</span>
+                        <span class="toggle-card-desc">Smooth dynamics</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="compression-toggle" checked>
+                            <span class="toggle-track"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-card" id="toggle-reverb">
+                        <div class="toggle-card-icon" style="--accent: #ec4899;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12a10 10 0 0020 0M6 12a6 6 0 0012 0M10 12a2 2 0 004 0"/></svg>
+                        </div>
+                        <span class="toggle-card-label">Gentle Reverb</span>
+                        <span class="toggle-card-desc">Ambient space & depth</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="reverb-toggle" checked>
+                            <span class="toggle-track"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-card" id="toggle-stereo">
+                        <div class="toggle-card-icon" style="--accent: #10b981;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="6" height="12" rx="1"/><rect x="16" y="6" width="6" height="12" rx="1"/><path d="M8 12h8"/></svg>
+                        </div>
+                        <span class="toggle-card-label">Stereo Width</span>
+                        <span class="toggle-card-desc">Immersive soundstage</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="stereo-toggle" checked>
+                            <span class="toggle-track"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-card" id="toggle-noise">
+                        <div class="toggle-card-icon" style="--accent: #64748b;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 5.64l-1.41 1.41M1 12h2M21 12h2M5.64 5.64l1.41 1.41M12 1v2"/><circle cx="12" cy="12" r="5"/><line x1="2" y1="2" x2="22" y2="22" stroke-width="2.5"/></svg>
+                        </div>
+                        <span class="toggle-card-label">Noise Reduce</span>
+                        <span class="toggle-card-desc">Clean background hiss</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="noise-toggle" checked>
+                            <span class="toggle-track"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-card" id="toggle-air">
+                        <div class="toggle-card-icon" style="--accent: #38bdf8;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg>
+                        </div>
+                        <span class="toggle-card-label">Air & Sparkle</span>
+                        <span class="toggle-card-desc">Subtle high-end shimmer</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="air-toggle" checked>
+                            <span class="toggle-track"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhance Button -->
+            <button class="enhance-btn" id="enhance-btn" disabled>
+                <span class="enhance-btn-content">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="enhance-btn-icon">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                    <span>Enhance Song</span>
+                </span>
+                <div class="enhance-btn-glow"></div>
+            </button>
+
+            <!-- Progress Section (hidden) -->
+            <div class="progress-section hidden" id="progress-section">
+                <div class="progress-ring-container">
+                    <svg class="progress-ring" viewBox="0 0 120 120">
+                        <circle class="progress-ring-bg" cx="60" cy="60" r="52"/>
+                        <circle class="progress-ring-fill" cx="60" cy="60" r="52" id="progress-ring-fill"/>
+                    </svg>
+                    <div class="progress-percent" id="progress-percent">0%</div>
+                </div>
+                <div class="progress-status" id="progress-status">Preparing audio...</div>
+                <div class="progress-steps">
+                    <div class="progress-step" id="step-upload">
+                        <div class="step-dot"></div>
+                        <span>Upload</span>
+                    </div>
+                    <div class="progress-step" id="step-analyze">
+                        <div class="step-dot"></div>
+                        <span>Analyze</span>
+                    </div>
+                    <div class="progress-step" id="step-enhance">
+                        <div class="step-dot"></div>
+                        <span>Enhance</span>
+                    </div>
+                    <div class="progress-step" id="step-export">
+                        <div class="step-dot"></div>
+                        <span>Export</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result Section (hidden) -->
+            <div class="result-section hidden" id="result-section">
+                <div class="result-icon">
+                    <svg viewBox="0 0 64 64" fill="none">
+                        <defs>
+                            <linearGradient id="successGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#34d399"/>
+                                <stop offset="100%" style="stop-color:#06b6d4"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="32" cy="32" r="28" stroke="url(#successGrad)" stroke-width="3" fill="none"/>
+                        <path d="M20 32L28 40L44 24" stroke="url(#successGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="result-title">Enhancement Complete!</h3>
+                <div class="result-stats" id="result-stats">
+                    <div class="stat-chip">
+                        <span class="stat-label">Duration</span>
+                        <span class="stat-value" id="stat-duration">—</span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="stat-label">Sample Rate</span>
+                        <span class="stat-value" id="stat-samplerate">—</span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="stat-label">Channels</span>
+                        <span class="stat-value" id="stat-channels">—</span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="stat-label">Quality</span>
+                        <span class="stat-value">24-bit WAV</span>
+                    </div>
+                </div>
+                <div class="result-actions">
+                    <a class="download-btn" id="download-btn" href="#" download>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                        </svg>
+                        Download Enhanced Track
+                    </a>
+                    <button class="reset-btn" id="reset-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/>
+                        </svg>
+                        Enhance Another
+                    </button>
+                </div>
+            </div>
+
+            <!-- Error Section (hidden) -->
+            <div class="error-section hidden" id="error-section">
+                <div class="error-icon">⚠️</div>
+                <p class="error-message" id="error-message">Something went wrong.</p>
+                <button class="reset-btn" id="error-reset-btn">Try Again</button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>SonicBloom &mdash; Professional audio enhancement powered by DSP</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
